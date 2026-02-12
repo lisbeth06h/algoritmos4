@@ -22,6 +22,7 @@ class ListaDoble:
             self.cola = nuevo
         else:
             nuevo.siguiente = self.cabeza
+            self.cabeza.anterior = nuevo
             self.cabeza = nuevo
     
     def insertar_final(self, dato):
@@ -52,7 +53,7 @@ class ListaDoble:
             self.cabeza = None
             self.cola = None
         else:
-            self.cola = self.cabeza.siguiente
+            self.cola = self.cola.siguiente
             self.cola.siguiente = None
     
     def recorrer_adelante(self):
@@ -108,9 +109,16 @@ class ListaDoble:
     
 lista = ListaDoble()
 lista.insertar_final(10)
-lista.eliminar_final(20)
-lista.eliminar_final(30)
+lista.insertar_final(20)
+lista.insertar_final(30)
 print(lista)
 
 lista.insertar_inicio(40)
 print(lista)
+
+lista.recorrer_adelante()
+lista.recorrer_atras()
+
+print(f"Tamaño de la lista: {len(lista)}")
+
+print(lista.buscar(40))
