@@ -318,3 +318,145 @@ def todos_tienen_permiso(usuarios, permiso):
         if not u.pertenece(permiso):
             return False
     return True
+
+
+
+
+
+
+
+
+# =========================================================
+# EXTRA 1: VALIDAR DIAGONAL SUDOKU (tipo sudoku variante)
+# =========================================================
+
+def validar_diagonales(tablero):
+    """
+    True si ambas diagonales tienen 1-9 sin repetir
+    """
+    diag1 = set()
+    diag2 = set()
+    
+    for i in range(9):
+        diag1.add(tablero[i][i])
+        diag2.add(tablero[i][8 - i])
+    
+    return diag1 == {1,2,3,4,5,6,7,8,9} and diag2 == {1,2,3,4,5,6,7,8,9}
+
+
+# =========================================================
+# EXTRA 2: MATRIZ SIN REPETIDOS POR FILA Y COLUMNA
+# =========================================================
+
+def matriz_valida(matriz):
+    """
+    True si ninguna fila ni columna tiene repetidos
+    """
+    n = len(matriz)
+    
+    # filas
+    for fila in matriz:
+        if len(fila) != len(set(fila)):
+            return False
+    
+    # columnas
+    for j in range(n):
+        col = [matriz[i][j] for i in range(n)]
+        if len(col) != len(set(col)):
+            return False
+    
+    return True
+
+
+# =========================================================
+# EXTRA 3: ELEMENTO MÁS FRECUENTE EN LISTA
+# =========================================================
+
+def mas_frecuente(lista):
+    """
+    Retorna el elemento que más se repite
+    """
+    conteo = {}
+    
+    for x in lista:
+        conteo[x] = conteo.get(x, 0) + 1
+    
+    max_elem = None
+    max_count = 0
+    
+    for k, v in conteo.items():
+        if v > max_count:
+            max_count = v
+            max_elem = k
+    
+    return max_elem
+
+
+# =========================================================
+# EXTRA 4: FILTRAR PERMISOS VÁLIDOS
+# =========================================================
+
+def permisos_validos(usuario, lista_permisos):
+    """
+    Retorna lista de permisos que el usuario sí tiene
+    """
+    resultado = []
+    
+    for p in lista_permisos:
+        if usuario.pertenece(p):
+            resultado.append(p)
+    
+    return resultado
+
+
+# =========================================================
+# EXTRA 5: AJEDREZ - CAMINO LIBRE TORRE
+# =========================================================
+
+def camino_torre_libre(tablero, pos1, pos2):
+    """
+    tablero: matriz con 0 vacío y 1 ocupado
+    True si no hay piezas en el camino
+    """
+    if pos1[0] == pos2[0]:  # misma fila
+        fila = pos1[0]
+        c1, c2 = sorted([pos1[1], pos2[1]])
+        
+        for j in range(c1 + 1, c2):
+            if tablero[fila][j] != 0:
+                return False
+    
+    elif pos1[1] == pos2[1]:  # misma columna
+        col = pos1[1]
+        f1, f2 = sorted([pos1[0], pos2[0]])
+        
+        for i in range(f1 + 1, f2):
+            if tablero[i][col] != 0:
+                return False
+    
+    else:
+        return False
+    
+    return True
+
+
+# =========================================================
+# EXTRA 6: ELIMINAR DUPLICADOS EN CONJUNTO (lista enlazada)
+# =========================================================
+
+def eliminar_duplicados(conjunto):
+    """
+    Asegura que no haya repetidos (por si agregaron mal)
+    """
+    vistos = set()
+    actual = conjunto.cabeza
+    anterior = None
+    
+    while actual:
+        if actual.dato in vistos:
+            anterior.siguiente = actual.siguiente
+        else:
+            vistos.add(actual.dato)
+            anterior = actual
+        
+        actual = actual.siguiente
